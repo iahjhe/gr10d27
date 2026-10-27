@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Equation of a Circle</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Newsreader:ital,wght@0,500;1,500&display=swap">
+<style>
+:root{--bg:#f3f7fa;--ink:#14283a;--mute:#4d6477;--grid:#d3e0ea;--ctr:#0b7a78;--rad:#d4432c;--hi:#f6d65a;--card:#ffffff;--line:#b9cbd9;--fill:rgba(11,122,120,.10);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1b27;--ink:#e8f0f6;--mute:#9db3c4;--grid:#1f3547;--ctr:#4cc9c0;--rad:#ff7a63;--hi:#8a7416;--card:#15293a;--line:#2f4a5f;--fill:rgba(76,201,192,.12)}}
+:root[data-theme="dark"]{--bg:#0e1b27;--ink:#e8f0f6;--mute:#9db3c4;--grid:#1f3547;--ctr:#4cc9c0;--rad:#ff7a63;--hi:#8a7416;--card:#15293a;--line:#2f4a5f;--fill:rgba(76,201,192,.12)}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',system-ui,sans-serif;overflow:hidden;position:relative}
+.slide{position:absolute;inset:0;display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(16px,4vw,56px);align-items:center;padding:clamp(18px,4vw,56px) clamp(18px,6vw,84px) 84px;opacity:0;visibility:hidden;transform:scale(.985);transition:opacity .5s,transform .5s,visibility .5s}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide.one{grid-template-columns:1fr}
+h1{font-size:clamp(34px,6vw,76px);line-height:1;margin:0 0 .3em;font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(26px,3.8vw,48px);line-height:1.05;margin:0 0 .4em;font-weight:800;letter-spacing:-.01em}
+p{font-size:clamp(15px,1.7vw,22px);line-height:1.5;margin:.5em 0;max-width:34em}
+.mute{color:var(--mute)}
+.eq{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:clamp(26px,4.2vw,54px);margin:.3em 0;line-height:1.2}
+.eq.s{font-size:clamp(20px,2.8vw,34px)}
+.eq i{font-style:italic}.c{color:var(--ctr)}.r{color:var(--rad)}
+mark{background:var(--hi);color:inherit;padding:0 .25em;border-radius:3px}
+.step{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.step.show{opacity:1;transform:none}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:14px 18px;margin:10px 0}
+.card p,.card .eq{margin:.2em 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.plane{width:100%;max-width:min(100%,64vh);margin:0 auto;aspect-ratio:1;background:var(--card);border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
+.plane svg{width:100%;height:100%;display:block}
+.g{stroke:var(--grid);stroke-width:1}.ax{stroke:var(--mute);stroke-width:1.8}
+.circ{fill:var(--fill);stroke:var(--ctr);stroke-width:3.5;stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+.on .circ{animation:dr 1.4s .3s ease forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+.rad{stroke:var(--rad);stroke-width:3.5;opacity:0}.leg{stroke:var(--mute);stroke-width:2;stroke-dasharray:6 5;fill:none;opacity:0}
+.dot{fill:var(--ctr)}.pdot{fill:var(--rad)}.lab{fill:var(--ink);font:700 13px 'Bricolage Grotesque',sans-serif;paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}.tk{fill:var(--mute);font:11px 'Bricolage Grotesque',sans-serif}
+.rl{fill:var(--rad);font:italic 700 18px 'Newsreader',serif;paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
+.rad,.leg,.dot,.pdot,.lab.late,.rl{opacity:0}
+.on .rad,.on .leg,.on .dot,.on .pdot,.on .lab.late,.on .rl{animation:fi .5s 1.6s forwards}
+@keyframes fi{to{opacity:1}}
+.live .circ{stroke-dashoffset:0;animation:none!important}
+.live .rad,.live .dot,.live .lab.late,.live .rl,.live .pdot,.live .leg{opacity:1;animation:none!important}
+.sl{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:center;margin-top:12px;font-size:16px}
+.sl input{width:100%;accent-color:var(--ctr)}.sl b{min-width:2.5em;text-align:right}
+.q{display:block;width:100%;text-align:left;background:var(--card);color:inherit;border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0;font:inherit;font-size:clamp(14px,1.6vw,19px);cursor:pointer}
+.q b{display:block;max-height:0;overflow:hidden;opacity:0;color:var(--ctr);transition:max-height .4s,opacity .4s,margin .4s}
+.q.open b{max-height:90px;opacity:1;margin-top:6px}
+.q .m{font-family:'Newsreader',serif;font-style:italic;font-size:1.15em}
+.pulse{animation:pl 2.4s 1s ease-in-out 2}
+@keyframes pl{50%{transform:scale(1.04)}}
+#bar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:12px clamp(14px,3vw,32px) calc(12px + env(safe-area-inset-bottom,0px));z-index:5}
+#bar button{font:600 15px 'Bricolage Grotesque',sans-serif;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+#bar button:focus-visible,.q:focus-visible{outline:3px solid var(--ctr);outline-offset:2px}
+#prog{flex:1;height:5px;background:var(--grid);border-radius:3px;overflow:hidden}
+#prog i{display:block;height:100%;width:0;background:var(--ctr);transition:width .4s}
+#cnt{font-size:14px;color:var(--mute);min-width:3.2em;text-align:right}
+#notes{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--bg);padding:18px clamp(18px,6vw,84px) 78px;font-size:clamp(15px,1.7vw,20px);line-height:1.5;transform:translateY(100%);transition:transform .4s;z-index:4}
+#notes.open{transform:none}
+@media (max-width:800px){.slide{grid-template-columns:1fr;align-content:start;overflow-y:auto;padding-top:24px}.plane{max-width:min(100%,46vh)}.two{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.circ{stroke-dashoffset:0}.rad,.leg,.dot,.pdot,.lab.late,.rl{opacity:1}}
+</style>
+</head>
+<body>
+
+<section class="slide" data-note="Say: Today we answer one question. If I give you a circle’s equation, can you tell me where it sits and how big it is? And the other way around: given the center and a point, can you write the equation? Watch the circle draw itself.">
+  <div>
+    <h1>Equation of a Circle</h1>
+    <p class="mute">Day 29</p>
+    <p class="step">Today you will learn to <mark>read</mark> a circle’s equation to find its center and radius, then <mark>write</mark> the equation yourself.</p>
+    <div class="eq s step"><i>(x − <span class="c">h</span>)</i>² + <i>(y − <span class="c">k</span>)</i>² = <i class="r">r</i>²</div>
+  </div>
+  <div class="plane" data-c="2,1,6"></div>
+</section>
+
+<section class="slide" data-note="Say: Pick any point on the circle, like (3, 4). Walk 3 across and 4 up. That makes a right triangle, and the radius is the slanted side. Pythagoras says 3² + 4² = 5². That is the whole equation. Every point on the circle follows it.">
+  <div>
+    <h2>Center at the origin</h2>
+    <div class="eq step show"><i>x</i>² + <i>y</i>² = <i class="r">r</i>²</div>
+    <p class="step">Every point on a circle is the same distance, <b class="r">r</b>, from the center. Here the center is <b>(0, 0)</b>.</p>
+    <p class="step">Take the point <b>P(3, 4)</b>. Go 3 across and 4 up. You get a right triangle, and the radius is its longest side.</p>
+    <p class="step">By the Pythagorean theorem: 3² + 4² = 9 + 16 = 25 = <b class="r">5²</b>. So <mark>r = 5</mark>.</p>
+  </div>
+  <div class="plane" data-c="0,0,5" data-p="3,4"></div>
+</section>
+
+<section class="slide one" data-note="Say: If the equation looks like x² + y² = a number, the center is the origin. The number on the right is r squared, so take its square root. Do not stop at 25. The radius is 5, not 25.">
+  <div>
+    <h2>Reading it: center at the origin</h2>
+    <p>If you see <b>x² + y² = a number</b>, the center is (0, 0). The number is <b class="r">r²</b>, so take its square root.</p>
+    <div class="two">
+      <div class="card step"><p><b>Find the center and radius of</b></p><div class="eq s"><i>x</i>² + <i>y</i>² = 25</div><p>r² = 25, so <b class="r">r = 5</b></p><p>Center <b class="c">(0, 0)</b>, radius <b class="r">5 units</b></p></div>
+      <div class="card step"><p><b>Find the center and radius of</b></p><div class="eq s"><i>x</i>² + <i>y</i>² = 100</div><p>r² = 100, so <b class="r">r = 10</b></p><p>Center <b class="c">(0, 0)</b>, radius <b class="r">10 units</b></p></div>
+    </div>
+    <p class="step"><mark>Watch out:</mark> the right side is r², not r.</p>
+  </div>
+</section>
+
+<section class="slide" data-note="Say: Now slide the center away from the origin. h moves the circle left and right, k moves it up and down, and r changes its size. Let the class play with the sliders and notice how the signs in the equation change.">
+  <div>
+    <h2>Center not at the origin</h2>
+    <div class="eq step show"><i>(x − <span class="c">h</span>)</i>² + <i>(y − <span class="c">k</span>)</i>² = <i class="r">r</i>²</div>
+    <p>The center is at <b class="c">(h, k)</b>. The radius still connects the center to a point P(x, y) on the circle.</p>
+    <p><b class="c">h</b> moves it left or right. <b class="c">k</b> moves it up or down. <b class="r">r</b> sets the size.</p>
+    <div class="eq s" id="live"></div>
+    <div class="sl">
+      <label for="H">h</label><input id="H" type="range" min="-8" max="8" value="3"><b id="Hv">3</b>
+      <label for="K">k</label><input id="K" type="range" min="-8" max="8" value="-2"><b id="Kv">-2</b>
+      <label for="Rr">r</label><input id="Rr" type="range" min="1" max="6" value="4"><b id="Rv">4</b>
+    </div>
+  </div>
+  <div class="plane live" id="lp" data-c="3,-2,4"></div>
+</section>
+
+<section class="slide" data-note="Say: Here is the trick. The equation has a minus sign built in. So x + 1 is really x − (−1), which means h is −1. The signs flip. Also, the right side is r squared, so write 36 as 6 squared and read r.">
+  <div>
+    <h2>Find the center and radius</h2>
+    <div class="card step">
+      <div class="eq s"><i>x</i>² + (<i>y</i> − 4)² = 16</div>
+      <p>Write as (<i>x</i> − 0)² + (<i>y</i> − 4)² = 4²</p>
+      <p><b class="c">h = 0, k = 4</b>, <b class="r">r = 4</b>. Center <b>(0, 4)</b>, radius <b>4 units</b>.</p>
+    </div>
+    <div class="card step">
+      <div class="eq s">(<i>x</i> + 1)² + (<i>y</i> − 7)² = 36</div>
+      <p>Write as (<i>x</i> − (−1))² + (<i>y</i> − 7)² = 6²</p>
+      <p><b class="c">h = −1, k = 7</b>, <b class="r">r = 6</b>. Center <b>(−1, 7)</b>, radius <b>6 units</b>.</p>
+    </div>
+    <p class="step"><mark>The signs flip:</mark> x + 1 means h = −1. (y − 7) means k = 7.</p>
+  </div>
+  <div class="plane" data-c="-1,7,6"></div>
+</section>
+
+<section class="slide" data-note="Say: Two steps. First the radius. We know the center (6, 7) and a point (2, 5) on the circle, so the radius is the distance between them. Then plug h, k and r into the equation. Notice r squared is already 20, so we do not even need the square root at the end.">
+  <div>
+    <h2>Write the equation</h2>
+    <p>Center at <b class="c">(6, 7)</b>, contains the point <b class="r">(2, 5)</b>.</p>
+    <div class="card step">
+      <p><b>Step 1. Find the radius</b> with the distance formula.</p>
+      <div class="eq s"><i>r</i> = √[(2 − 6)² + (5 − 7)²]</div>
+      <div class="eq s"><i>r</i> = √(16 + 4) = √20 = 2√5</div>
+    </div>
+    <div class="card step">
+      <p><b>Step 2. Substitute</b> h = 6, k = 7, r = 2√5.</p>
+      <div class="eq s">(<i>x</i> − 6)² + (<i>y</i> − 7)² = (2√5)²</div>
+    </div>
+    <div class="eq step"><mark>(x − 6)² + (y − 7)² = 20</mark></div>
+  </div>
+  <div class="plane" data-c="6,7,4.472" data-p="2,5"></div>
+</section>
+
+<section class="slide" data-note="Say: Sometimes the answer is wanted in general form. Square the binomials, move every term to the left, and combine the numbers. 25 plus 16 minus 9 gives 32. The result looks like x² + y² + Ax + By + C = 0.">
+  <div>
+    <h2>General form</h2>
+    <p>Center at <b class="c">(−5, −4)</b>, radius <b class="r">3 units</b>. Write it as <i>x</i>² + <i>y</i>² + <i>Ax</i> + <i>By</i> + <i>C</i> = 0.</p>
+    <div class="card step"><p>Substitute into (x − h)² + (y − k)² = r²</p><div class="eq s">[<i>x</i> − (−5)]² + [<i>y</i> − (−4)]² = 3²</div></div>
+    <div class="card step"><p>Simplify</p><div class="eq s">(<i>x</i> + 5)² + (<i>y</i> + 4)² = 9</div></div>
+    <div class="card step"><p>Expand by squaring each binomial</p><div class="eq s"><i>x</i>² + 10<i>x</i> + 25 + <i>y</i>² + 8<i>y</i> + 16 = 9</div></div>
+    <div class="eq step"><mark>x² + y² + 10x + 8y + 32 = 0</mark></div>
+  </div>
+  <div class="plane" data-c="-5,-4,3"></div>
+</section>
+
+<section class="slide" data-note="Say: Your turn. Give the class two minutes in their notebooks, then tap a question to reveal the answer. For 29b number 1, the radius squared is (1 − 2)² + (4 − 3)² = 2, so the right side is 2, not a square root.">
+  <div>
+    <h2>Exercise 29a</h2>
+    <p class="mute">Find the center and radius. Try it, then tap to check.</p>
+    <button class="q"><span class="m">x² + y² = 121</span><b>Center (0, 0), r = 11</b></button>
+    <button class="q"><span class="m">x² + y² = 144</span><b>Center (0, 0), r = 12</b></button>
+    <button class="q"><span class="m">x² + (y + 10)² = 64</span><b>Center (0, −10), r = 8</b></button>
+    <button class="q"><span class="m">(x − 3)² + (y + 5)² = 49</span><b>Center (3, −5), r = 7</b></button>
+  </div>
+  <div>
+    <h2>Exercise 29b</h2>
+    <p class="mute">Find the equation.</p>
+    <button class="q"><span>Center (2, 3), contains the point (1, 4)</span><b>r² = (1 − 2)² + (4 − 3)² = 2<br>(x − 2)² + (y − 3)² = 2</b></button>
+    <button class="q"><span>Center (6, −2), radius 8 units</span><b>(x − 6)² + (y + 2)² = 64</b></button>
+  </div>
+</section>
+
+<div id="notes" aria-live="polite"></div>
+<div id="bar">
+  <button id="pv" aria-label="Previous">Back</button>
+  <button id="nx" aria-label="Next">Next</button>
+  <div id="prog"><i></i></div>
+  <span id="cnt"></span>
+  <button id="nt">Notes</button>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg',s=20;
+const $=(q,e=document)=>e.querySelector(q),$$=(q,e=document)=>[...e.querySelectorAll(q)];
+function mk(t,a,p,x){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(x!==undefined)e.textContent=x;p.appendChild(e);return e}
+const f=n=>+(+n).toFixed(2);
+
+function draw(el){
+  const [h,k,r]=el.dataset.c.split(',').map(Number);
+  const pt=el.dataset.p&&el.dataset.p.split(',').map(Number);
+  el.innerHTML='';
+  
+  // Calculate dynamic bounding limits to contain circle and origin nicely
+  let minX = Math.min(-2, h - r - 2);
+  let maxX = Math.max(2, h + r + 2);
+  let minY = Math.min(-2, k - r - 2);
+  let maxY = Math.max(2, k + r + 2);
+  
+  if(pt){
+    minX = Math.min(minX, pt[0]-2);
+    maxX = Math.max(maxX, pt[0]+2);
+    minY = Math.min(minY, pt[1]-2);
+    maxY = Math.max(maxY, pt[1]+2);
+  }
+
+  // Symmetric bounds per axis to keep grid looking clean
+  const limitX = Math.ceil(Math.max(Math.abs(minX), Math.abs(maxX)));
+  const limitY = Math.ceil(Math.max(Math.abs(minY), Math.abs(maxY)));
+  const range = Math.max(limitX, limitY);
+
+  const viewWidth = range * 2 * s;
+  const viewHeight = range * 2 * s;
+
+  const v=mk('svg',{viewBox:`${-range*s} ${-range*s} ${viewWidth} ${viewHeight}`,role:'img','aria-label':`Circle with center (${h}, ${k}) and radius ${f(r)}`},el);
+
+  // Draw Grid & Axes
+  const step = range > 10 ? 2 : 1;
+  for(let i=-range;i<=range;i++){
+    if(i !== 0 && i % step === 0) {
+      mk('line',{x1:i*s,y1:-range*s,x2:i*s,y2:range*s,class:'g'},v);
+      mk('line',{x1:-range*s,y1:-i*s,x2:range*s,y2:-i*s,class:'g'},v);
+    }
+  }
+  
+  // Main Axes
+  mk('line',{x1:0,y1:-range*s,x2:0,y2:range*s,class:'ax'},v);
+  mk('line',{x1:-range*s,y1:0,x2:range*s,y2:0,class:'ax'},v);
+
+  // Ticks and Labels
+  for(let i=-range;i<=range;i++){
+    if(i!==0 && i%step===0){
+      mk('text',{x:i*s,y:14,'text-anchor':'middle',class:'tk'},v,i);
+      mk('text',{x:-6,y:-i*s+4,'text-anchor':'end',class:'tk'},v,i);
+    }
+  }
+
+  // Draw Circle (y-axis inverted in SVG, so center SVG y is -k*s)
+  const cx = h * s;
+  const cy = -k * s;
+  const radPx = r * s;
+  const circLen = 2 * Math.PI * radPx;
+
+  mk('circle',{cx:cx,cy:cy,r:radPx,class:'circ',style:`--len:${circLen}`},v);
+
+  // Points & Radius lines
+  const ex = pt ? pt[0] : h + r;
+  const ey = pt ? pt[1] : k;
+  const px = ex * s;
+  const py = -ey * s;
+
+  if(pt) {
+    // Pythagorean Legs
+    mk('polyline',{points:`${cx},${cy} ${px},${cy} ${px},${py}`,class:'leg'},v);
+  }
+
+  // Radius Line
+  mk('line',{x1:cx,y1:cy,x2:px,y2:py,class:'rad'},v);
+
+  // Label position for radius
+  const midX = (cx + px) / 2;
+  const midY = (cy + py) / 2;
+  mk('text',{x:midX + (pt ? -10 : 0),y:midY - 8,'text-anchor':'middle',class:'rl'},v,'r');
+
+  // Center Dot & Label
+  mk('circle',{cx:cx,cy:cy,r:5,class:'dot'},v);
+  const cLabY = (k <= ey) ? cy + 18 : cy - 10;
+  mk('text',{x:cx,y:cLabY,'text-anchor':'middle',class:'lab late'},v,`(${h}, ${k})`);
+
+  // Target Point Dot & Label (if specified)
+  if(pt){
+    mk('circle',{cx:px,cy:py,r:5,class:'pdot'},v);
+    const pLabY = (ey >= k) ? py - 10 : py + 18;
+    mk('text',{x:px,y:pLabY,'text-anchor':'middle',class:'lab late'},v,`P(${ex}, ${ey})`);
+  }
+}
+
+$$('.plane').forEach(draw);
+
+const term=(v,n)=>v==0?`<i>${n}</i>²`:`(<i>${n}</i> ${v>0?'−':'+'} ${Math.abs(v)})²`;
+const H=$('#H'),K=$('#K'),Rr=$('#Rr');
+function live(){
+  const h=+H.value,k=+K.value,r=+Rr.value;
+  $('#Hv').textContent=h;$('#Kv').textContent=k;$('#Rv').textContent=r;
+  $('#live').innerHTML=`${term(h,'x')} + ${term(k,'y')} = ${r*r}`;
+  const p=$('#lp');p.dataset.c=`${h},${k},${r}`;draw(p);
+}
+if(H&&K&&Rr){
+  [H,K,Rr].forEach(e=>e.addEventListener('input',live));live();
+}
+
+$$('.q').forEach(b=>b.addEventListener('click',()=>b.classList.toggle('open')));
+
+const sl=$$('.slide'),notes=$('#notes');let cur=0,shown=0;
+function render(){
+  const st=$$('.step',sl[cur]);
+  st.forEach((e,i)=>e.classList.toggle('show',e.dataset.init==='1'||i<shown+st.filter(x=>x.dataset.init==='1').length&&true));
+}
+function go(i,full){
+  cur=i;
+  sl.forEach((e,j)=>e.classList.toggle('active',j==i));
+  const st=$$('.step',sl[i]);
+  st.forEach(e=>{if(e.classList.contains('show'))e.dataset.init='1'});
+  shown=full?st.length:0;
+  st.forEach((e,j)=>e.classList.toggle('show',e.dataset.init==='1'||j<shown));
+  $$('.plane',sl[i]).forEach(p=>{p.classList.remove('on');void p.offsetWidth;p.classList.add('on')});
+  notes.textContent=sl[i].dataset.note;
+  $('#prog i').style.width=((i+1)/sl.length*100)+'%';
+  $('#cnt').textContent=`${i+1}/${sl.length}`;
+}
+function reveal(){
+  const st=$$('.step',sl[cur]);
+  st.forEach((e,j)=>e.classList.toggle('show',e.dataset.init==='1'||j<shown));
+}
+function next(){
+  const st=$$('.step',sl[cur]),pend=st.filter(e=>e.dataset.init!=='1').length;
+  if(shown<pend){shown++;reveal()}else if(cur<sl.length-1)go(cur+1,false);
+}
+function prev(){
+  if(shown>0){shown--;reveal()}else if(cur>0)go(cur-1,true);
+}
+$$('.slide').forEach(sc=>{$$('.step.show',sc).forEach(e=>e.dataset.init='1')});
+$('#nx').onclick=next;$('#pv').onclick=prev;
+$('#nt').onclick=()=>notes.classList.toggle('open');
+addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)&&e.target.tagName!=='BUTTON'&&e.target.tagName!=='INPUT'){e.preventDefault();next()}
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)&&e.target.tagName!=='INPUT'){e.preventDefault();prev()}
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('open');
+});
+let tx=null;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+addEventListener('touchend',e=>{if(tx===null||e.target.tagName==='INPUT')return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60)d<0?next():prev();tx=null});
+go(0,false);
+</script>
+</body>
+</html>
